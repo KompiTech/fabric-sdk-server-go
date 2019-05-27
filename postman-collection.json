@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "6a8026b5-a15c-4a49-aade-f1a2affcef1a",
+		"name": "Fabric SDK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Query CC",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/chaincode/query?chaincode=sample-cc&channel=[CHANNEL_NAME]&fcn=list",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"chaincode",
+						"query"
+					],
+					"query": [
+						{
+							"key": "chaincode",
+							"value": "sample-cc"
+						},
+						{
+							"key": "user",
+							"value": "admin3",
+							"disabled": true
+						},
+						{
+							"key": "channel",
+							"value": "[CHANNEL_NAME]"
+						},
+						{
+							"key": "fcn",
+							"value": "list"
+						},
+						{
+							"key": "fcn",
+							"value": "read",
+							"disabled": true
+						},
+						{
+							"key": "args",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invoke CC",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/chaincode/invoke?chaincode=sample-cc&channel=[CHANNEL_NAME]&fcn=put&args=TESTDATA1",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"chaincode",
+						"invoke"
+					],
+					"query": [
+						{
+							"key": "chaincode",
+							"value": "sample-cc"
+						},
+						{
+							"key": "user",
+							"value": "admin3",
+							"disabled": true
+						},
+						{
+							"key": "channel",
+							"value": "[CHANNEL_NAME]"
+						},
+						{
+							"key": "fcn",
+							"value": "put"
+						},
+						{
+							"key": "args",
+							"value": "TESTDATA1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

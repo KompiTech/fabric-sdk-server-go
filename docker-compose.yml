@@ -1,0 +1,12 @@
+version: '3'
+services:
+  fabric-sdk-server:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./${FSD_KEYSTORE_PATH}:/go/keystore
+      - ./${FSD_CONFIG_PATH}:/config
+    environment:
+      FABSRV_SERVER_ADDRESS: 0.0.0.0
+      FABSRV_FABRIC_CONFIGPATH: "/config/sdk_config.yaml"
