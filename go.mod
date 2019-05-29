@@ -6,6 +6,7 @@ require (
 	github.com/Knetic/govaluate v3.0.0+incompatible // indirect
 	github.com/VividCortex/gohistogram v1.0.0 // indirect
 	github.com/cloudflare/cfssl v0.0.0-20190510060611-9c027c93ba9e // indirect
+	github.com/ghodss/yaml v1.0.0
 	github.com/golang/mock v1.3.1 // indirect
 	github.com/google/certificate-transparency-go v1.0.21 // indirect
 	github.com/gorilla/mux v1.7.2

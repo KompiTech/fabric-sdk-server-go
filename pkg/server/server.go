@@ -17,10 +17,14 @@
 package server
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/ghodss/yaml"
 
 	"github.com/KompiTech/fabric-sdk-server-go/pkg/fabric"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
@@ -49,6 +53,7 @@ func NewServer() *Server {
 func (s *Server) RegisterHTTPHandlers() {
 	s.router.HandleFunc("/api/v1/chaincode/query", s.httpHandleCCQuery)
 	s.router.HandleFunc("/api/v1/chaincode/invoke", s.httpHandleCCInvoke)
+	s.router.HandleFunc("/api/v1/config", s.httpHandleGetConfig)
 }
 
 // Start starts listening HTTP
@@ -110,6 +115,73 @@ func (s *Server) httpHandleCCInvoke(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	_, err = w.Write(ccResponse.Payload)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+}
+
+func (s *Server) httpHandleGetConfig(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("400: Bad Request"))
+		return
+	}
+
+	outChannels := make([]string, 0)
+	outUsers := make([]string, 0)
+	outPeers := make([]string, 0)
+	outOrderers := make([]string, 0)
+	configJSON := make(map[string]interface{})
+	out := make(map[string]interface{})
+
+	config, err := ioutil.ReadFile(viper.GetString("fabric.configpath"))
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	configJSONBytes, err := yaml.YAMLToJSON(config)
+
+	if err = json.Unmarshal(configJSONBytes, &configJSON); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	outOrg := configJSON["client"].(map[string]interface{})["organization"].(string)
+
+	for channel := range configJSON["channels"].(map[string]interface{}) {
+		outChannels = append(outChannels, channel)
+	}
+	for orderer := range configJSON["orderers"].(map[string]interface{}) {
+		outOrderers = append(outOrderers, orderer)
+	}
+	for peer := range configJSON["peers"].(map[string]interface{}) {
+		outPeers = append(outPeers, peer)
+	}
+	for user := range configJSON["organizations"].(map[string]interface{})[outOrg].(map[string]interface{})["users"].(map[string]interface{}) {
+		outUsers = append(outUsers, user)
+	}
+
+	out["organization"] = outOrg
+	out["channels"] = outChannels
+	out["orderers"] = outOrderers
+	out["peers"] = outPeers
+	out["users"] = outUsers
+
+	response, err := json.Marshal(out)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	_, err = w.Write(response)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
