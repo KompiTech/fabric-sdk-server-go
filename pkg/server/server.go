@@ -27,6 +27,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
+	"github.com/rs/cors"
 	"github.com/spf13/viper"
 )
 
@@ -54,7 +55,9 @@ func (s *Server) RegisterHTTPHandlers() {
 func (s *Server) Start() error {
 	s.RegisterHTTPHandlers()
 	log.Print(fmt.Sprintf("Listening HTTP on: %s", s.url))
-	return http.ListenAndServe(s.url, s.router)
+
+	handler := CORSWrap(s.router)
+	return http.ListenAndServe(s.url, handler)
 }
 
 type chaincodeHTTPRequest struct {
@@ -79,12 +82,15 @@ func (s *Server) httpHandleCCQuery(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	_, err = w.Write(ccResponse.Payload)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 		return
 	}
+
 }
 
 func (s *Server) httpHandleCCInvoke(w http.ResponseWriter, r *http.Request) {
@@ -101,6 +107,8 @@ func (s *Server) httpHandleCCInvoke(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	_, err = w.Write(ccResponse.Payload)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -158,4 +166,16 @@ func convertArgs(args []string) [][]byte {
 		argBytes = append(argBytes, []byte(arg))
 	}
 	return argBytes
+}
+
+// CORSWrap wraps http.Handler with CORS
+func CORSWrap(handler http.Handler) http.Handler {
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://127.0.0.1:8081", "http://localhost:8081", "https://127.0.0.1:8081", "https://localhost:8081"},
+		AllowedMethods:   []string{"PUT", "POST", "GET", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"*"},
+		MaxAge:           3200,
+		AllowCredentials: true,
+	})
+	return c.Handler(handler)
 }

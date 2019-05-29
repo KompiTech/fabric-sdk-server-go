@@ -21,7 +21,7 @@ docker: build-linux
 	docker build -t fabric-sdk-server:latest .
 
 compose-up: build-linux
-	docker-compose up
+	docker-compose up --build
 
 compose-down:
 	docker-compose down
