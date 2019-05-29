@@ -171,7 +171,7 @@ func convertArgs(args []string) [][]byte {
 // CORSWrap wraps http.Handler with CORS
 func CORSWrap(handler http.Handler) http.Handler {
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://127.0.0.1:8081", "http://localhost:8081", "https://127.0.0.1:8081", "https://localhost:8081"},
+		AllowedOrigins:   []string{"*"},
 		AllowedMethods:   []string{"PUT", "POST", "GET", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"*"},
 		MaxAge:           3200,
