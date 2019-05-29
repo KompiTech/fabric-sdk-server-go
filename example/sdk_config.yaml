@@ -1,0 +1,79 @@
+client:
+  organization: org1
+  logging:
+    level: info
+  BCCSP:
+    security:
+      enabled: true
+      default:
+        provider: sw
+      hashAlgorithm: SHA2
+      softVerify: true
+      level: 256
+channels:
+  org1-channel:
+    orderers:
+    - orderer.org1.example.com
+    peers:
+      peer1.org1.example.com:
+        endorsingpeer: true
+        chaincodequery: true
+        ledgerquery: true
+        eventsource: true
+    policies:
+      querychannelconfig:
+        minresponses: 0
+        maxtargets: 0
+        retryopts:
+          attempts: 0
+          initialbackoff: 0s
+          maxbackoff: 0s
+          backofffactor: 0
+          retryablecodes: {}
+      discovery:
+        minresponses: 0
+        maxtargets: 0
+        retryopts:
+          attempts: 0
+          initialbackoff: 0s
+          maxbackoff: 0s
+          backofffactor: 0
+          retryablecodes: {}
+      selection:
+        sortingstrategy: ""
+        balancer: ""
+        blockheightlagthreshold: 0
+organizations:
+  org1:
+    mspid: org1
+    cryptopath: ""
+    users:
+      admin:
+        cert:
+          pem: |-
+            -----BEGIN CERTIFICATE-----
+            ...
+            -----END CERTIFICATE-----
+    peers:
+    - peer1.org1.example.com
+    certificateauthorities: []
+orderers:
+  orderer.org1.example.com:
+    url: orderer.org1.example.com:7050
+    grpcoptions:
+      allow-insecure: false
+    tlscacerts:
+      pem: |-
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----
+peers:
+  peer1.org1.example.com:
+    url: peer1.org1.example.com:7051
+    grpcoptions:
+      allow-insecure: false
+    tlscacerts:
+      pem: |-
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----

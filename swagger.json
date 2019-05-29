@@ -1,0 +1,190 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "HTTP server which is able to call the Hyperledger Fabric Chaincode.",
+    "version": "1.0.0",
+    "title": "Fabric SDK Go Server",
+    "contact": {
+      "email": "info@kompitech.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "chaincode",
+      "description": "Chaindode calls"
+    },
+    {
+      "name": "config",
+      "description": "Configuration"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/chaincode/query": {
+      "get": {
+        "tags": [
+          "chaincode"
+        ],
+        "summary": "Query the chaincode",
+        "description": "Query the chaincode",
+        "operationId": "query",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "query",
+            "description": "User name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "chaincode",
+            "in": "query",
+            "description": "Chaincode name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "channel",
+            "in": "query",
+            "description": "Channel name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fcn",
+            "in": "query",
+            "description": "Function name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "args",
+            "in": "query",
+            "description": "Arguments",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "500": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/chaincode/invoke": {
+      "post": {
+        "tags": [
+          "chaincode"
+        ],
+        "summary": "Query the chaincode",
+        "description": "Query the chaincode",
+        "operationId": "invoke",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "query",
+            "description": "User name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "chaincode",
+            "in": "query",
+            "description": "Chaincode name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "channel",
+            "in": "query",
+            "description": "Channel name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fcn",
+            "in": "query",
+            "description": "Function name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "args",
+            "in": "query",
+            "description": "Arguments",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "500": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/config": {
+      "get": {
+        "tags": [
+          "config"
+        ],
+        "summary": "Get configuration values",
+        "description": "Get configuration values",
+        "operationId": "config",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "500": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Github code",
+    "url": "https://github.com/KompiTech/fabric-sdk-server-go"
+  }
+}
