@@ -30,17 +30,20 @@ This repository contains source code for HTTP server which is able to call the H
 ## Configuration
 The server itself offers environment variables listed below to set the configuration.
 This configuration is not needed to override if you're using Docker Compose.
+
 | Variable | Default Value | Description |
 | ------ | ------ |------ |
 | FABSRV_SERVER_ADDRESS | 127.0.0.0 | Address the server will listen on |
 | FABSRV_SERVER_PORT | 8080 | Port the server will listen on |
 | FABSRV_FABRIC_CONFIGPATH | ./sdk_config.yaml | Path to Fabric SDK configuration file |
 | FABSRV_FABRIC_USER | admin | Default username used when ommited in HTTP requests |
+
 The `keystore` directory containing user private keys must be placed in CWD from server binary has been started
 
 ### Docker Compose configuration
 There are another set of variables used only for running the server in Docker Compose.
 Those variables don't need to be overriden if you're using default `keystore` dir and `config/sdk_config.yaml` as a config file.
+
 | Variable | Default Value | Description |
 | ------ | ------ |------ |
 | FSD_KEYSTORE_PATH | ./keystore | Keystore dir can be placed anywhere on the file system when using Docker Compose |
