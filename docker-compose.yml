@@ -9,4 +9,4 @@ services:
       - ./${FSD_CONFIG_PATH}:/config
     environment:
       FABSRV_SERVER_ADDRESS: 0.0.0.0
-      FABSRV_FABRIC_CONFIGPATH: "/config/sdk_config.yaml"
+      FABSRV_FABRIC_CONFIGPATH: "/config/${FSD_CONFIG_FILENAME}"
