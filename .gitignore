@@ -13,3 +13,6 @@
 
 build/
 vendor/
+sdk_config*
+keystore/*
+docker-compose.override.yml
