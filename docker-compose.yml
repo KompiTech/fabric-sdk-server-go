@@ -16,5 +16,6 @@ services:
       - "8090:80"
     volumes:
       - ${PWD}/fe:/usr/share/nginx/html
+      - ${PWD}/examples/one-org/config.js:/usr/share/nginx/html/config.js
       - ${PWD}/nginx.conf:/etc/nginx/conf.d/default.conf
     command: ["nginx", "-g", "daemon off;"]
