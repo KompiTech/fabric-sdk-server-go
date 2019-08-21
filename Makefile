@@ -9,13 +9,13 @@ build:
 build-all: build-linux build-darwin build-windows
 
 build-linux:
-	GOOS=linux   GOARCH=amd64 go build -o ${BUILD_DIR}/${PKG_NAME}.linux cmd/server/main.go
+	GO111MODULE=on GOOS=linux GOARCH=amd64 go build -o ${BUILD_DIR}/${PKG_NAME}.linux cmd/server/main.go
 
 build-darwin:
-	GOOS=darwin  GOARCH=amd64 go build -o ${BUILD_DIR}/${PKG_NAME}.darwin cmd/server/main.go
+	GO111MODULE=on GOOS=darwin GOARCH=amd64 go build -o ${BUILD_DIR}/${PKG_NAME}.darwin cmd/server/main.go
 	
 build-windows:
-	GOOS=windows GOARCH=amd64 go build -o ${BUILD_DIR}/${PKG_NAME}.windows cmd/server/main.go
+	GO111MODULE=on GOOS=windows GOARCH=amd64 go build -o ${BUILD_DIR}/${PKG_NAME}.windows cmd/server/main.go
 
 docker: build-linux
 	docker build -t fabric-sdk-server:latest .
