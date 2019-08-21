@@ -33,7 +33,7 @@ example-one-down:
 	docker-compose -f examples/one-org/docker-compose.yml down
 
 example-two: build-linux
-	docker-compose -f examples-two-orgs/docker-compose.yml up --build 
+	docker-compose -f examples/two-orgs/docker-compose.yml up --build 
 
 example-two-down:
-	docker-compose -f examples-two-orgs/docker-compose.yml down
+	docker-compose -f examples/two-orgs/docker-compose.yml down
